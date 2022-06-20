@@ -82,16 +82,12 @@ function init(){
   <div class="mdui-container-fluid">
     <div id="nav" class="mdui-toolbar nexmoe-item nav-style"> </div>
     </div>
-  <div class="mdui-container-fluid">
-    <div id="head_md" class="mdui-typo nexmoe-item" style="display:none;padding: 20px 0;"></div>
-    <div id="content" class="nexmoe-item"></div>
-    <div id="readme_md" class="mdui-typo nexmoe-item" style="display:none; padding: 20px 0;"></div>
-  </div>
+ 
+  
 </div>
 <br><br><br><br><br>`;
     $('body').html(html);
-    $('#readme_md').hide().html('');
-    $('#head_md').hide().html('');
+   
 }
 
 const Os = {
