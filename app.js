@@ -208,10 +208,6 @@ function list(path) {
 	     File
 	<i class="mdui-icon material-icons icon-sort" data-sort="name" data-order="more">expand_more</i>
 	    </div>
-	    <div class="mdui-col-sm-3 mdui-text-right">
-	     Time
-	<i class="mdui-icon material-icons icon-sort" data-sort="date" data-order="downward">expand_more</i>
-	    </div>
 	    <div class="mdui-col-sm-2 mdui-text-right">
 	     Size
 	<i class="mdui-icon material-icons icon-sort" data-sort="size" data-order="downward">expand_more</i>
@@ -339,7 +335,7 @@ function append_files_to_list(path, files) {
       item['size'] = "";
     }
 
-    item['modifiedTime'] = utc2beijing(item['modifiedTime']);
+ 
     item['size'] = formatFileSize(item['size']);
     if (item['mimeType'] == 'application/vnd.google-apps.folder') {
       html += `<li class="mdui-list-item mdui-ripple"><a href="${p}" class="folder">
@@ -347,7 +343,7 @@ function append_files_to_list(path, files) {
 	            <i class="mdui-icon material-icons">folder_open</i>
 	              ${item.name}
 	            </div>
-	            <div class="mdui-col-sm-3 mdui-text-right">${item['modifiedTime']}</div>
+	         
 	            <div class="mdui-col-sm-2 mdui-text-right">${item['size']}</div>
 	            </a>
 	        </li>`;
@@ -377,7 +373,7 @@ function append_files_to_list(path, files) {
 	          <i class="mdui-icon material-icons">insert_drive_file</i>
 	            ${item.name}
 	          </div>
-	          <div class="mdui-col-sm-3 mdui-text-right">${item['modifiedTime']}</div>
+	    
 	          <div class="mdui-col-sm-2 mdui-text-right">${item['size']}</div>
 	          </a>
 	      </li>`;
@@ -441,10 +437,7 @@ function render_search_result_list() {
 	     File
 	<i class="mdui-icon material-icons icon-sort" data-sort="name" data-order="more">expand_more</i>
 	    </div>
-	    <div class="mdui-col-sm-3 mdui-text-right">
-	     Time
-	<i class="mdui-icon material-icons icon-sort" data-sort="date" data-order="downward">expand_more</i>
-	    </div>
+	   
 	    <div class="mdui-col-sm-2 mdui-text-right">
 	     Size
 	<i class="mdui-icon material-icons icon-sort" data-sort="size" data-order="downward">expand_more</i>
@@ -556,7 +549,6 @@ function append_search_result_to_list(files) {
       item['size'] = "";
     }
 
-    item['modifiedTime'] = utc2beijing(item['modifiedTime']);
     item['size'] = formatFileSize(item['size']);
     if (item['mimeType'] == 'application/vnd.google-apps.folder') {
       html += `<li class="mdui-list-item mdui-ripple"><a id="${item['id']}" onclick="onSearchResultItemClick(this)" class="folder">
@@ -564,7 +556,7 @@ function append_search_result_to_list(files) {
 	            <i class="mdui-icon material-icons">folder_open</i>
 	              ${item.name}
 	            </div>
-	            <div class="mdui-col-sm-3 mdui-text-right">${item['modifiedTime']}</div>
+	          me']}</div>
 	            <div class="mdui-col-sm-2 mdui-text-right">${item['size']}</div>
 	            </a>
 	        </li>`;
@@ -579,7 +571,7 @@ function append_search_result_to_list(files) {
 	          <i class="mdui-icon material-icons">insert_drive_file</i>
 	            ${item.name}
 	          </div>
-	          <div class="mdui-col-sm-3 mdui-text-right">${item['modifiedTime']}</div>
+	       
 	          <div class="mdui-col-sm-2 mdui-text-right">${item['size']}</div>
 	          </a>
 	      </li>`;
@@ -937,36 +929,6 @@ function file_image(path) {
 }
 
 
-//Time conversion
-function utc2beijing(utc_datetime) {
-  // Convert to normal time format year-month-day hour: minute: second
-  var T_pos = utc_datetime.indexOf('T');
-  var Z_pos = utc_datetime.indexOf('Z');
-  var year_month_day = utc_datetime.substr(0, T_pos);
-  var hour_minute_second = utc_datetime.substr(T_pos + 1, Z_pos - T_pos - 1);
-  var new_datetime = year_month_day + " " + hour_minute_second; // 2017-03-31 08:02:06
-
-  // Processing becomes timestamp
-  timestamp = new Date(Date.parse(new_datetime));
-  timestamp = timestamp.getTime();
-  timestamp = timestamp / 1000;
-
-  // 8 hours more, Beijing time is eight more time zones than UTC time
-  var unixtimestamp = timestamp + 8 * 60 * 60;
-
-  // Timestamp to time
-  var unixtimestamp = new Date(unixtimestamp * 1000);
-  var year = 1900 + unixtimestamp.getYear();
-  var month = "0" + (unixtimestamp.getMonth() + 1);
-  var date = "0" + unixtimestamp.getDate();
-  var hour = "0" + unixtimestamp.getHours();
-  var minute = "0" + unixtimestamp.getMinutes();
-  var second = "0" + unixtimestamp.getSeconds();
-  return year + "-" + month.substring(month.length - 2, month.length) + "-" + date.substring(date.length - 2, date.length)
-    + " " + hour.substring(hour.length - 2, hour.length) + ":"
-    + minute.substring(minute.length - 2, minute.length) + ":"
-    + second.substring(second.length - 2, second.length);
-}
 
 // bytes Adaptive conversion to KB, MB, GB
 function formatFileSize(bytes) {
