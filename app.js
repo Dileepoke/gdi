@@ -11,23 +11,87 @@ if(dark){document.write('<style>* {box-sizing: border-box}body{color:rgba(255,25
 function init(){
     document.siteName = $('title').html();
     $('body').addClass("mdui-theme-primary-"+main_color+" mdui-theme-accent-"+accent_color);
-    var html = "";
-    html += `
-    <header class="mdui-appbar mdui-color-theme">`
-    if(dark){
-        html += `
-        <div id="nav" class="mdui-toolbar mdui-container mdui-text-color-white-text">
-        </div>`;
-    }else{
-        html += `
-        <div id="nav" class="mdui-toolbar mdui-container">
-        </div>`;
+    var html = '';
+    var model = window.MODEL;
+    var cur = window.current_drive_order || 0;
+    var names = window.drive_names;
+    var search_text = model.is_search_page ? (model.q || '') : '';
+
+    // 搜索
+    var search_bar = `
+                    <div class="titleBar_item search_bar">
+                        <a class="titleBar_link searchBar_link" onclick="if($('.search_bar').hasClass('searchBar_link') && $('.searchBar_form>input').val()) $('.searchBar_form').submit();">
+                            <i class="mdui-icon material-icons"></i>
+                        </a>
+                        <form class="searchBar_form titleBar_exhibit" method="get" action="/${cur}:search">
+                            <input type="text" name="q" placeholder="Search in current drive" value="${search_text}" />
+                        </form>
+                    </div>`;
+    // 盘
+    var pan_bar = `
+                    <div class="titleBar_item titleBar_pan">
+                        <a class="titleBar_link panBar_link"><i></i></a>
+                        <div class="menu_list titleBar_exhibit"><p>Netdisc Drive</p>`;
+    names.forEach((name, idx) => {
+        pan_bar += `<a  class="menu_list_item"  href="/${idx}:/">${name}</a>`;
+    });
+    pan_bar += `
+                        </div>
+                    </div>`;
+
+    // 菜单
+    var menu_bar = `
+        <div class="titleBar_item titleBar_menu">
+          <a class="titleBar_link"><i></i></a>
+          <div class="menu_list titleBar_exhibit"><p>Menu</p>`;
+
+    for (let i = 0; i < ThemeConfig.menus.length; i++) {
+        menu_bar += `<a class="menu_list_item" href="${ThemeConfig.menus[i].url}" target="_blank">${ThemeConfig.menus[i].name}</a>`;
     }
-html += `
-    </header>
-        <div id="content" class="mdui-container"> 
+
+    menu_bar += `
+          </div>
         </div>`;
+
+    html = `
+<div class="bimg"></div>
+<header class="titleBar">
+  <dir class="titleBar_container">
+    <div class="titleBar_avatar">
+      <a class="titleBar_item" href="/">
+        <img src="${ThemeConfig.avatar}">
+      </a>
+    </div>
+    <div class="titleBar_nav">
+      <div class="titleBar_nav_end">` + pan_bar + search_bar;
+
+
+    if (ThemeConfig.menu_show) {
+        html += menu_bar + `</div>`;
+    } else {
+        html += `</div>`;
+    }
+
+    html += `
+    </div>
+  </dir>
+</header>`;
+
+    html += `
+<div class="mdui-container">
+  <div class="mdui-container-fluid">
+    <div id="nav" class="mdui-toolbar nexmoe-item nav-style"> </div>
+    </div>
+  <div class="mdui-container-fluid">
+    <div id="head_md" class="mdui-typo nexmoe-item" style="display:none;padding: 20px 0;"></div>
+    <div id="content" class="nexmoe-item"></div>
+    <div id="readme_md" class="mdui-typo nexmoe-item" style="display:none; padding: 20px 0;"></div>
+  </div>
+</div>
+<br><br><br><br><br>`;
     $('body').html(html);
+    $('#readme_md').hide().html('');
+    $('#head_md').hide().html('');
 }
 
 const Os = {
@@ -80,74 +144,30 @@ function render(path) {
 
 
 // Rendering title
-function title(path) {
-  path = decodeURI(path);
-  var cur = window.current_drive_order || 0;
-  var drive_name = window.drive_names[cur];
-  path = path.replace(`/${cur}:`, '');
-  // $('title').html(document.siteName + ' - ' + path);
-  var model = window.MODEL;
-  if (model.is_search_page)
-    $('title').html(`${document.siteName} - ${drive_name} - Search Result for ${model.q} `);
-  else
-    $('title').html(`${document.siteName} - ${drive_name} - ${path}`);
-}
-
-// Render the navigation bar
 function nav(path) {
-  var model = window.MODEL;
-  var html = "";
-  var cur = window.current_drive_order || 0;
-  html += `<a href="/${cur}:/" class="mdui-typo-headline folder">${document.siteName}</a>`;
-  var names = window.drive_names;
-  /*html += `<button class="mdui-btn mdui-btn-raised" mdui-menu="{target: '#drive-names'}"><i class="mdui-icon mdui-icon-left material-icons">share</i> ${names[cur]}</button>`;
-  html += `<ul class="mdui-menu" id="drive-names" style="transform-origin: 0px 0px; position: fixed;">`;
-  names.forEach((name, idx) => {
-      html += `<li class="mdui-menu-item ${(idx === cur) ? 'mdui-list-item-active' : ''} "><a href="/${idx}:/" class="mdui-ripple">${name}</a></li>`;
-  });
-  html += `</ul>`;*/
+    var model = window.MODEL;
+    var html = "";
+    var cur = window.current_drive_order || 0;
+    var names = window.drive_names;
+  
 
-  // change into select
-  html += `<select class="mdui-select" onchange="window.location.href=this.value" mdui-select style="overflow:visible;padding-left:8px;padding-right:8px">`;
-  names.forEach((name, idx) => {
-    html += `<option value="/${idx}:/"  ${idx === cur ? 'selected="selected"' : ''} >${name}</option>`;
-  });
-  html += `</select>`;
-
-  if (!model.is_search_page) {
-    var arr = path.trim('/').split('/');
-    var p = '/';
-    if (arr.length > 1) {
-      arr.shift();
-      for (i in arr) {
-        var n = arr[i];
-        n = decodeURI(n);
-        p += n + '/';
-        if (n == '') {
-          break;
+    html += `<a href="/${cur}:/" class="mdui-typo-headline folder">/</a>`;
+    if (!model.is_search_page) {
+        var arr = path.trim('/').split('/');
+        var p = '/';
+        if (arr.length > 1) {
+            arr.shift();
+            for (i in arr) {
+                var n = arr[i];
+                n = decodeURI(n);
+                p += n + '/';
+                if (n == '') {
+                    break;
+                }
+                html += `<i class="mdui-icon material-icons mdui-icon-dark folder" style="margin:0;">chevron_right</i><a class="folder" href="/${cur}:${p}">${n}</a>`;
+            }
         }
-        html += `<i class="mdui-icon material-icons mdui-icon-dark folder" style="margin:0;">chevron_right</i><a class="folder" href="/${cur}:${p}">${n}</a>`;
-      }
     }
-  }
-  var search_text = model.is_search_page ? (model.q || '') : '';
-  const isMobile = Os.isMobile;
-  var search_bar = `<div class="mdui-toolbar-spacer"></div>
-        <div id="search_bar" class="mdui-textfield mdui-textfield-expandable mdui-float-right ${model.is_search_page ? 'mdui-textfield-expanded' : ''}" style="max-width:${isMobile ? 300 : 400}px">
-            <button class="mdui-textfield-icon mdui-btn mdui-btn-icon" onclick="if($('#search_bar').hasClass('mdui-textfield-expanded') && $('#search_bar_form>input').val()) $('#search_bar_form').submit();">
-                <i class="mdui-icon material-icons">search</i>
-            </button>
-            <form id="search_bar_form" method="get" action="/${cur}:search">
-            <input class="mdui-textfield-input mdui-text-color-white-text" type="text" name="q" placeholder="Search in current drive" value="${search_text}"/>
-            </form>
-            <button class="mdui-textfield-close mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">close</i></button>
-        </div>`;
-
-  // Personal or team
-  if (model.root_type < 2) {
-    // Show search box
-    html += search_bar;
-  }
 
   $('#nav').html(html);
   mdui.mutation();
