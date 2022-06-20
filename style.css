@@ -188,3 +188,80 @@
 .titleBar .titleBar_container .titleBar_avatar img {
     border-color: rgba(42,64,87,0.5);
 }
+
+.nexmoe-item {
+    margin: 20px -8px 0 !important;
+    padding: 15px !important;
+    border-radius: 8px;
+    -webkit-box-shadow: 0 0.2em 1em rgba(204, 204, 204, .3);
+    box-shadow: 0 0.2em 1em rgba(204, 204, 204, .3);
+    background-color: #fff;
+}
+@media screen and (max-width: 1200px) {
+
+    .titleBar_container,
+    .mdui-container {
+        max-width: 860px;
+    }
+}
+
+@media screen and (max-width: 980px) {
+
+    .mdui-toolbar>a:last-child,
+    .mdui-toolbar>i:last-child {
+        display: block;
+    }
+
+    .mdui-toolbar>a,
+    .mdui-toolbar>i {
+        display: none;
+    }
+
+
+    .mdui-list-item .mdui-text-right {
+        display: none
+    }
+}
+
+@media screen and (max-width: 900px) {
+
+    .titleBar_container,
+    .mdui-container {
+        max-width: 80%;
+    }
+}
+
+@media screen and (max-width: 780px) {
+
+    .titleBar_container,
+    .mdui-container {
+        max-width: 80%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+
+    .titleBar_container,
+    .mdui-container {
+        max-width: 95%;
+    }
+
+    .searchBar_form {
+        width: 100vw;
+        right: -14vw;
+    }
+
+    .searchBar_form input {
+        width: 85vw;
+        margin: 10px auto;
+    }
+
+    .panBar_link>i {
+        padding-top: 4px;
+    }
+
+    .titleBar_item a:first-child {
+        padding-top: 14px;
+    }
+
+}
