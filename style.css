@@ -1,0 +1,190 @@
+::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+}
+
+.titleBar {
+    background-color: #ffffff;
+    color: #333333;
+    position: relative;
+    box-shadow: 0 0 10px #eeeeee;
+}
+
+.titleBar_container {
+    width: 100%;
+    height: 3.5rem;
+    align-items: stretch;
+    display: flex;
+    max-width: 70%;
+    flex-grow: 1;
+    margin: 0 auto;
+    position: relative;
+}
+
+.titleBar_avatar {
+    min-height: 3.5rem;
+    align-items: stretch;
+    display: flex;
+    flex-shrink: 0;
+}
+
+.titleBar_item {
+    flex-grow: 0;
+    flex-shrink: 0;
+    display: block;
+    position: relative;
+}
+
+.titleBar .titleBar_container .titleBar_avatar img {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-width: 4px;
+    border-radius: 2.5rem;
+    border-style: solid;
+    border-color: #ebe8e8;
+    position: absolute;
+    top: 0.25rem;
+    transition: 1.2s;
+}
+
+.titleBar .titleBar_container .titleBar_avatar img:hover {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+}
+
+.titleBar_nav {
+    flex-grow: 1;
+    flex-shrink: 0;
+    align-items: stretch;
+    display: flex;
+}
+
+.titleBar_nav_end {
+    justify-content: flex-end;
+    margin-left: auto;
+    align-items: stretch;
+    display: flex;
+}
+
+.titleBar_nav_end a {
+    text-decoration: none;
+}
+
+.titleBar_nav_end .titleBar_item {
+    align-items: stretch;
+    display: flex;
+}
+
+.titleBar_link {
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+    line-height: 1.5;
+    padding: .5rem .75rem;
+    position: relative;
+}
+
+.titleBar_link>i {
+    color: #333;
+    display: inline-block;
+    font-family: iconfont, Material Icons !important;
+    font-size: 1.6rem;
+    font-style: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.titleBar_link>i:before {
+    content: "\e623";
+}
+
+.titleBar_item a:hover {
+    background-color: #333;
+}
+
+.titleBar_item a:hover i {
+    color: #fff;
+}
+
+.titleBar_menu:hover div {
+    display: block;
+}
+
+.titleBar_pan:hover div{
+    display: block;
+}
+
+.panBar_link > i{
+    padding-top: 8px;
+    font-size: 1.8rem;
+}
+
+.panBar_link > i:before {
+    content: "\E871";
+}
+
+.search_bar:hover form {
+    display: block;
+}
+
+.searchBar_link>i:before {
+    content: "\e601";
+}
+
+.titleBar_exhibit{
+    background-color: #fff;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-top: 2px solid #333;
+    box-shadow: 0 8px 8px rgba(10, 10, 10, .1);
+    position: absolute;
+    display: none;
+    z-index: 30;
+}
+
+.searchBar_form {
+    top: 100%;
+    right: 0;
+    text-align: center;
+}
+
+.searchBar_form input {
+    width: 20rem;
+    height: 2rem;
+    margin: 10px 20px;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 2rem;
+    border-color: #666;
+    padding: 0 15px;
+    outline: none;
+}
+
+.searchBar_form input:focus {
+    border-color: #333;
+}
+
+.titleBar {
+    background-color: #30475E;
+    box-shadow: 0 0 10px #222831;
+}
+
+.titleBar_item a:hover {
+    background-color: #222831;
+}
+
+.titleBar_item a:hover i {
+    color: #DDDDDD;
+}
+
+.titleBar_link>i {
+    color: #DDDDDD;
+}
+
+.titleBar .titleBar_container .titleBar_avatar img {
+    border-color: rgba(42,64,87,0.5);
+}
